@@ -1,0 +1,28 @@
+<app-layout>
+    <router-outlet>
+      <div class="row">
+        <div class="col-md-12">
+          <nb-card>
+              <nb-card-header>
+                  <div class="text-center">
+                    <a href="/">
+                      <img src="{{appSettings.appLogo}}" class="rounded" alt="{{ appSettings.appTitle }}">
+                    </a>
+                  </div>
+                </nb-card-header>
+            <nb-card-body>
+              <div class="flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12">
+                <h2 class="title">403 Forbidden</h2>
+                <small class="sub-title">
+                    You are not authorized to access the requested page.
+                </small>
+                <button (click)="goToHome()" type="button" class="btn btn-block btn-primary">
+                    Go back to your dashboard.
+                </button>
+              </div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+    </router-outlet>
+  </app-layout>

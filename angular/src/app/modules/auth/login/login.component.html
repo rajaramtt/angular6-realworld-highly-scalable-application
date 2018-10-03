@@ -1,0 +1,87 @@
+<app-layout>
+  <router-outlet>
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <nb-card>
+          <nb-card-header>
+            <div class="text-center">
+              <a href="/">
+                <img src="{{appSettings.appLogo}}" class="rounded" alt="{{ appSettings.appTitle }}">
+              </a>
+            </div>
+          </nb-card-header>
+          <nb-card-header class="text-center">
+            <h4 class="title">{{ appSettings.appTitle }} Login</h4>
+          </nb-card-header>
+          <nb-card-body>
+            <form [ngClass]="{ 'form-submit': isSubmit}" (ngSubmit)="onSubmit()" name="loginForm" [formGroup]="loginForm">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input name="email" type="email" class="form-control" id="email" placeholder="Email" formControlName="email">
+                <div class="invalid-feedback form-error" *ngIf="email.invalid && (email.dirty || email.touched || isSubmit)">
+                  <span *ngIf="email.errors.required">
+                    Please select a Email
+                  </span>
+                  <span *ngIf="email.errors.maxlength">
+                    Please enter a Email no more than 250 characters.
+                  </span>
+                  <span *ngIf="email.errors.pattern">
+                    Please enter a valid Email .
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label w-100" for="password">
+                  <span>
+                    Password
+                  </span>
+                  <span class="float-right">
+                    <a [routerLink]="['/auth/forgot-password']">
+                      Forgot Password?
+                    </a>
+                  </span>
+                </label>
+                <div class="input-group">
+                  <input name="password" [type]="hide ? 'password' : 'text'" class="form-control" id="password" placeholder="Password" formControlName="password">
+                  <span class="input-group-append">
+                    <button class="btn btn-primary input-group-text" (click)="hide = !hide">
+                      <i *ngIf="hide" class="fa fa-eye"></i>
+                      <i *ngIf="!hide" class="fa fa-eye-slash"></i>
+                    </button>
+                  </span>
+                </div>
+
+                <div class="invalid-feedback form-error" *ngIf="password.invalid && (password.dirty || password.touched || isSubmit)">
+                  <span *ngIf="password.errors.required">
+                    Please enter a password
+                  </span>
+                  <span *ngIf="password.errors.maxlength">
+                    Please enter a password no more than 16 characters.
+                  </span>
+                  <span *ngIf="password.errors.minlength">
+                    Please enter a password at least 6 characters.
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <nb-checkbox formControlName="remember">Remember me </nb-checkbox>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                  Log in now
+                </button>
+              </div>
+              <a class="ml-1 text-right" [routerLink]="['/client/signup']">
+                Client Sign Up
+              </a>
+            </form>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-md-3">
+      </div>
+    </div>
+  </router-outlet>
+</app-layout>

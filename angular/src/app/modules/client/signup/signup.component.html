@@ -1,0 +1,381 @@
+<app-layout>
+  <router-outlet>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10">
+        <nb-card>
+          <nb-card-header>
+            <div class="text-center">
+              <a href="/">
+                <img src="{{ appSettings.appLogo }}" class="rounded" alt="{{ appSettings.appTitle }}">
+              </a>
+            </div>
+          </nb-card-header>
+          <nb-card-header class="text-center">
+            <h4 class="title">Client Sign up</h4>
+            <small class="form-text sub-title">
+              Create Your  Account
+            </small>
+          </nb-card-header>
+          <nb-card-body>
+            <form *ngIf="!isSuccess; else successMessage" [ngClass]="{ 'form-submit': isSubmit}" (ngSubmit)="onSubmit()" name="signupForm" [formGroup]="signupForm">
+              <div class="row">
+                <div class="col-md-6">
+
+                  <nb-card formGroupName="userInfo">
+                    <nb-card-header>User Info</nb-card-header>
+                    <nb-card-body>
+                      <div class="form-group">
+                        <label for="maritalStatus">Marital Status</label>
+                        <label class="custom-control  custom-radio">
+                          <input formControlName="maritalStatus" type="radio" value="single" class="custom-control-input" name="maritalStatus">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Single</span>
+                        </label>
+                        <label class="custom-control custom-radio">
+                          <input formControlName="maritalStatus" type="radio" value="married" class="custom-control-input" name="maritalStatus">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Married</span>
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <label class="custom-control  custom-radio">
+                          <input formControlName="gender" type="radio" value="male" class="custom-control-input" name="gender">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Male</span>
+                        </label>
+                        <label class="custom-control custom-radio">
+                          <input formControlName="gender" type="radio" value="female" class="custom-control-input" name="gender">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Female</span>
+                        </label>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" formControlName="firstName" name="firstName" class="form-control" id="firstName" placeholder="First Name">
+                            <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].firstName.invalid && (signupForm['controls'].userInfo['controls'].firstName.dirty || signupForm['controls'].userInfo['controls'].firstName.touched || isSubmit)">
+                              <span *ngIf="signupForm['controls'].userInfo['controls'].firstName.errors.required">
+                                Please enter a First Name.
+                              </span>
+                              <span *ngIf="signupForm['controls'].userInfo['controls'].firstName.errors.maxlength">
+                                Please enter a First Name no more than 100 characters.
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" formControlName="lastName" name="lastName" class="form-control" id="lastName" placeholder="Last Name">
+                            <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].lastName.invalid && (signupForm['controls'].userInfo['controls'].lastName.dirty || signupForm['controls'].userInfo['controls'].lastName.touched || isSubmit)">
+                              <span *ngIf="signupForm['controls'].userInfo['controls'].lastName.errors.required">
+                                Please enter a Last Name.
+                              </span>
+                              <span *ngIf="signupForm['controls'].userInfo['controls'].lastName.errors.maxlength">
+                                Please enter a Last Name no more than 100 characters.
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="dob">
+                          Date of Birth
+                        </label>
+                        <div class="input-group">
+                          <input type="text" formControlName="dob" name="dob" class="form-control" id="dob" placeholder="YYYY-MM-DD" ngbDatepicker
+                            #d="ngbDatepicker">
+                          <span class="input-group-append">
+                            <button (click)="d.toggle()" type="button" class="btn btn-primary input-group-text">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].dob.invalid && (signupForm['controls'].userInfo['controls'].dob.dirty || signupForm['controls'].userInfo['controls'].dob.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].dob.errors.required">
+                            Please enter a Date of Birth.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].dob.invalid && !signupForm['controls'].userInfo['controls'].dob.errors.required">
+                            Date of Birth is invalid.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <div class="input-group">
+                          <span class="input-group-prepend">
+                            <button type="button" class="btn btn-primary btn-icon input-group-text">
+                              <i class="ion-ios-telephone"></i>
+                            </button>
+                          </span>
+                          <input type="text" formControlName="mobile" name="mobile" class="form-control" id="mobile" placeholder="Mobile Number" [textMask]="{ mask: usaPhoneFormat }">
+                        </div>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].mobile.invalid && (signupForm['controls'].userInfo['controls'].mobile.dirty || signupForm['controls'].userInfo['controls'].mobile.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].mobile.errors.required">
+                            Please enter a Mobile Number.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].mobile.invalid && !signupForm['controls'].userInfo['controls'].mobile.errors.required">
+                            Mobile Number is invalid.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group mail-btn-group">
+                          <span class="input-group-prepend">
+                            <button type="button" class="btn btn-primary btn-icon input-group-text">
+                              <i class="ion-ios-email-outline"></i>
+                            </button>
+                          </span>
+                          <input type="text" formControlName="email" name="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].email.invalid && (signupForm['controls'].userInfo['controls'].email.dirty || signupForm['controls'].userInfo['controls'].email.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].email.errors.required">
+                            Please enter a Email.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].email.errors.maxlength">
+                            Please enter a Email no more than 250 characters.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].email.errors.email">
+                            Please enter a valid Email.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                          <input [type]="hide ? 'password' : 'text'" name="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                          <span class="input-group-append">
+                            <button class="btn btn-primary input-group-text" (click)="hide = !hide">
+                              <i *ngIf="hide" class="fa fa-eye"></i>
+                              <i *ngIf="!hide" class="fa fa-eye-slash"></i>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].password.invalid && (signupForm['controls'].userInfo['controls'].password.dirty || signupForm['controls'].userInfo['controls'].password.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].password.errors.required">
+                            Please enter a Password.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].password.errors.maxlength">
+                            Please enter a password no more than 16 characters.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].password.errors.minlength">
+                            Please enter a password at least 6 characters.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" formControlName="address" name="address" class="form-control" id="address" placeholder="Address">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].address.invalid && (signupForm['controls'].userInfo['controls'].address.dirty || signupForm['controls'].userInfo['controls'].address.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].address.errors.required">
+                            Please enter a Address.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].address.errors.maxlength">
+                            Please enter a Address no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="address">City</label>
+                        <input type="text" formControlName="city" name="city" class="form-control" id="city" placeholder="city">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].city.invalid && (signupForm['controls'].userInfo['controls'].city.dirty || signupForm['controls'].userInfo['controls'].city.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].city.errors.required">
+                            Please enter a City.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].city.errors.maxlength">
+                            Please enter a City no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="address">State</label>
+                        <input type="text" formControlName="state" name="state" class="form-control" id="state" placeholder="State">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].state.invalid && (signupForm['controls'].userInfo['controls'].state.dirty || signupForm['controls'].userInfo['controls'].state.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].state.errors.required">
+                            Please enter a State.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].state.errors.maxlength">
+                            Please enter a State no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="address">Country</label>
+                        <select formControlName="country" name="country" class="form-control" id="country">
+                          <option value="">Select Country</option>
+                          <option *ngFor="let country of countries" [value]="country.country"> {{ country.country }}</option>
+                        </select>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].country.invalid && (signupForm['controls'].userInfo['controls'].country.dirty || signupForm['controls'].userInfo['controls'].country.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].country.errors.required">
+                            Please enter a Country.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].country.errors.maxlength">
+                            Please enter a Country no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="zip">Zip</label>
+                        <input type="text" [textMask]="{ mask: usaZipFormat }" formControlName="zip" name="zip" class="form-control" id="zip" placeholder="Zip">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].zip.invalid && (signupForm['controls'].userInfo['controls'].zip.dirty || signupForm['controls'].userInfo['controls'].zip.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].zip.errors.required">
+                            Please enter a Zip.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].zip.invalid && !signupForm['controls'].userInfo['controls'].zip.errors.required">
+                            Zip is invalid.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="qualification">Qualification</label>
+                        <input type="text" formControlName="qualification" name="qualification" class="form-control" id="qualification" placeholder="Qualification">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].qualification.invalid && (signupForm['controls'].userInfo['controls'].qualification.dirty || signupForm['controls'].userInfo['controls'].qualification.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].qualification.errors.required">
+                            Please enter a Qualification.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].qualification.errors.maxlength">
+                            Please enter a Qualification no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="profession">Profession</label>
+                        <input type="text" formControlName="profession" name="profession" class="form-control" id="profession" placeholder="Profession">
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].profession.invalid && (signupForm['controls'].userInfo['controls'].profession.dirty || signupForm['controls'].userInfo['controls'].profession.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].profession.errors.required">
+                            Please enter a Profession.
+                          </span>
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].profession.errors.maxlength">
+                            Please enter a Profession no more than 250 characters.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="nationality">Nationality</label>
+                        <select formControlName="nationality" name="nationality" class="form-control" id="nationality">
+                          <option value="">Select Nationality</option>
+                          <option *ngFor="let country of countries" [value]="country.country"> {{ country.country }}</option>
+                        </select>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].userInfo['controls'].nationality.invalid && (signupForm['controls'].userInfo['controls'].nationality.dirty || signupForm['controls'].userInfo['controls'].nationality.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].userInfo['controls'].nationality.errors.required">
+                            Please select a Nationality.
+                          </span>
+                        </div>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+                <div class="col-md-6">
+
+                  <nb-card formGroupName="applicationInfo">
+                    <nb-card-header>Application Info</nb-card-header>
+                    <nb-card-body>
+                      <div class="form-group">
+                        <label for="type">Application Type</label>
+                        <select formControlName="type" name="type" class="form-control" id="type">
+                          <option value="">Select Application Type</option>
+                          <option *ngFor="let type of appSettings.applicationTypes" [value]="type">{{type}}</option>
+                        </select>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].applicationInfo['controls'].type.invalid && (signupForm['controls'].applicationInfo['controls'].type.dirty || signupForm['controls'].applicationInfo['controls'].type.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].applicationInfo['controls'].type.errors.required">
+                            Please select a Application Type.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="type">Notes</label>
+                        <textarea rows="5" placeholder="Notes about your Application." class="form-control" formControlName="notes" name="notes"
+                          id="notes">
+                        </textarea>
+                        <div class="invalid-feedback form-error" *ngIf="signupForm['controls'].applicationInfo['controls'].notes.invalid && (signupForm['controls'].applicationInfo['controls'].notes.dirty || signupForm['controls'].applicationInfo['controls'].notes.touched || isSubmit)">
+                          <span *ngIf="signupForm['controls'].applicationInfo['controls'].notes.errors.maxlength">
+                            Please enter a Profession no more than 1000 characters.
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <label class="col-sm-3 col-form-label" for="files">Documents</label>
+                          <div class="col-sm-9">
+                            <span class="hidden-file">
+                              <input type="file" #fileInput ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+                            </span>
+                            <div class="btn-group" (click)="fileInput.click()">
+                              <button type="button" class="btn btn-primary btn-group-icon btn-group-divider">
+                                <i class="ion-plus-round"></i>
+                              </button>
+                              <button type="button" class="btn btn-primary">
+                                Add Documents
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div formGroupName="attachments">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>File</th>
+                              <th>File Name</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody *ngFor="let a of signupForm['controls'].applicationInfo['controls'].attachments['controls']; let i=index">
+                            <tr [formGroupName]="i">
+                              <td class="align-middle iconsize">
+                                <i class="nb-info" container="body" ngbTooltip="{{ signupForm.controls.applicationInfo.controls.attachments.controls[i].value.filename }}"></i>
+                              </td>
+                              <td>
+                                <input formControlName="displayName" class="form-control" placeholder="File Name" type="text">
+                                <div class="invalid-feedback form-error" *ngIf="attachments.controls[i].controls.displayName.invalid && (attachments.controls[i].controls.displayName.dirty || attachments.controls[i].controls.displayName.touched || isSubmit)">
+                                  <span *ngIf="attachments.controls[i].controls.displayName.errors.required">
+                                    Please enter a File Name.
+                                  </span>
+                                  <span *ngIf="attachments.controls[i].controls.displayName.errors.maxlength">
+                                    Please enter a File Name no more than 100 characters.
+                                  </span>
+                                </div>
+                              </td>
+                              <td class="align-middle iconsize">
+                                <i (click)="confirm(i)" class="nb-trash c-pointer" ngbTooltip="Delete Attachment"></i>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Signup
+              </button>
+              <a class="ml-1 text-right" [routerLink]="['/auth/login']">
+                Client Login
+              </a>
+            </form>
+            <ng-template #successMessage>
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+              </div>
+              <a class="btn btn-info" routerLink="/auth/login">Log In</a>
+            </ng-template>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+  </router-outlet>
+</app-layout>
