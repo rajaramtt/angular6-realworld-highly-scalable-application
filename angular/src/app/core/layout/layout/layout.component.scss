@@ -1,6 +1,6 @@
 @import './src/assets/scss/theme/themes';
+@import '~@nebular/theme/styles/global/breakpoints';
 @import '~bootstrap/scss/mixins/breakpoints';
-@import '~@nebular/theme/styles/global/bootstrap/breakpoints';
 
 @include nb-install-component() {
   nb-layout-column.small {
